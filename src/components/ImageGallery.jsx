@@ -1,9 +1,9 @@
-import Styles from './ImageResult.module.css';
+import Styles from './ImageGallery.module.css';
 import ImagePart from './ImagePart.jsx';
 import PropTypes from 'prop-types';
 
 
-const ImageResult = ({images, onImageClick}) => {
+const ImageGallery = ({images, onImageClick}) => {
   return (
     <div className={Styles.imageResult}>
         {images.length>0 ? (
@@ -23,7 +23,7 @@ const ImageResult = ({images, onImageClick}) => {
   )
 }
 
-ImageResult.propTypes = {
+ImageGallery.propTypes = {
     images: PropTypes.arrayOf(
       PropTypes.shape({
         objectID: PropTypes.string.isRequired, // objectID'nin string olduğunu varsaydım.
@@ -33,4 +33,4 @@ ImageResult.propTypes = {
     ).isRequired,
     onImageClick: PropTypes.func.isRequired,
   };
-export default ImageResult
+export default ImageGallery

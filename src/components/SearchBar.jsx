@@ -1,6 +1,6 @@
-import Styles from './SearchBox.module.css';
+import Styles from './SearchBar.module.css';
 import PropTypes from 'prop-types';
-const SearchBox = ({value,onChange,onSubmit}) => {
+const SearchBar = ({value,onChange,onSubmit}) => {
   return (
     <div className={Styles.searchBox}>
         <button className={Styles.findButton} onClick={onSubmit} >
@@ -20,9 +20,9 @@ const SearchBox = ({value,onChange,onSubmit}) => {
   )
 }
 
-SearchBox.propTypes={
+SearchBar.propTypes={
   value:PropTypes.string.isRequired,
   onChange:PropTypes.func.isRequired,
   onSubmit:PropTypes.func.isRequired,
 }
-export default SearchBox
+export default SearchBar;
