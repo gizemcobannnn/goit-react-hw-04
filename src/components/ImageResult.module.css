@@ -1,0 +1,21 @@
+.imageResult {
+    margin: 0 auto;
+    padding: 10px; /* Genel bir iç boşluk */
+  }
+  
+  .imagesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px; /* Elemanlar arasında boşluk */
+  }
+  
+  .listImage {
+    flex: calc(25% - 20px); /* Ekran genişliğine göre 4 sütun */
+    margin-bottom: 10px; /* Alt boşluk */
+    box-sizing: border-box; /* Kenar dolgularının genişlik üzerinde etkisini önlemek */
+  }
+  

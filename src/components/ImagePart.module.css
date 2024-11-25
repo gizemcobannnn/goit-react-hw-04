@@ -1,0 +1,25 @@
+.imagePart {
+    height: calc(25vw - 20px); /* Sabit yükseklik */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    border: 1px solid #ddd; /* Çerçeve */
+    border-radius: 8px; /* Köşeleri yuvarlama */
+    overflow: hidden; /* Taşan kısımları gizle */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .imagePart:hover {
+    transform: scale(1.05); /* Hover efekti */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .imagePart img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Görselleri kırpar ve doldurur */
+  }
+  

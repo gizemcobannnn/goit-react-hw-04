@@ -1,0 +1,69 @@
+/* Modal arkaplan */
+.imageModalDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+  }
+  
+  /* Modal içerik */
+  .imageModal {
+    position: relative;
+    width: 100%; /* Modal genişliği (isteğe bağlı ayarlanabilir) */
+    height: 100%;
+    max-width: 900px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(155, 130, 130, 0.5);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Resim */
+  .modalImage {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh; /* Ekrana sığması için dikey limit */
+    margin: auto; /* Ortalamayı sağlar */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(240, 232, 232, 0.3);
+  }
+  
+  /* Modal içeriği */
+  .modalBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px; /* Düğme ve resim arasındaki boşluk */
+  }
+  
+  /* Kapatma düğmesi */
+  .closeButton {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    color: #b76565;
+    font-size: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1001;
+
+  }
+  
+  .closeButton:hover {
+    transform: scale(1.2);
+    color: #ff4d4d; /* Kapatma düğmesi üzerine gelindiğinde kırmızı */
+  }
+  
+ 

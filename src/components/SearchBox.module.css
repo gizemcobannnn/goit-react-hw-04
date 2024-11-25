@@ -7,3 +7,17 @@
 .inputBox{
     border: none;
 }
+
+.inputBox:focus{
+    border:none;
+    outline: none;
+}
+
+.findButton:focus{
+    border:none;
+    outline: none;
+}
+
+.findButton:hover{
+    border:none;
+}
