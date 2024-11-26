@@ -64,13 +64,15 @@ function App() {
 
 
   const handleSearch = (event) => {
-    setSearch(event.target.value); // Yazılan değeri güncelle.
+    setSearch(event.target.value); 
+    localStorage.setItem("searchText",JSON.stringify(event.target.value));
   };
 
   const handleLoadMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
     fetchImages(search, nextPage);
+    setLoading(false);
   };
   const handleSearchSubmit = () => {
     if (!search.trim()) {
@@ -83,10 +85,20 @@ function App() {
   };
 
   useEffect(()=>{
-    const localData = localStorage.getItem("currentImages");
-    if(localData){
-      setImages(JSON.parse(localData));
+    const localSearch = JSON.parse(localStorage.getItem("searchText"));;
+
+    if(!localSearch){
+      setImages([]);
+    }else{
+      const localData = localStorage.getItem("currentImages");
+
+      if(localData){
+        setImages(JSON.parse(localData));
+        setSearch(localSearch);
+      }
+
     }
+
   },[]);
 
   return (
@@ -104,8 +116,9 @@ function App() {
     }
 
      {
-       images.length>0 &&  !error && (<LoadMoreBtn onLoad={handleLoadMore}></LoadMoreBtn> ) 
+       images.length>0 &&  !error &&  isLoading===false && (<LoadMoreBtn onLoad={handleLoadMore}></LoadMoreBtn> ) 
      }
+
 
      {modalOpen && selectedImg && (
        <ImageModal
