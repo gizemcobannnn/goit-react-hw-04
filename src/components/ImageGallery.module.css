@@ -15,7 +15,6 @@
   
   .listImage {
     flex: calc(25% - 20px); /* Ekran genişliğine göre 4 sütun */
-    margin-bottom: 10px; /* Alt boşluk */
     box-sizing: border-box; /* Kenar dolgularının genişlik üzerinde etkisini önlemek */
   }
   

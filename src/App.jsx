@@ -1,20 +1,23 @@
+import { useEffect, useState } from 'react';
+import './App.css';
+import axios from 'axios';
+import ReactModal from 'react-modal';
+
 import SearchBar from './components/SearchBar.jsx';
 import ImageGallery from './components/ImageGallery.jsx';
 import LoadMoreBtn  from './components/LoadMoreBtn.jsx';
 import ImageModal from './components/ImageModal.jsx';
 import ErrorMessage from './components/ErrorMessage.jsx'
 import Loader from './components/Loader.jsx';
-import { useEffect, useState } from 'react';
-import './App.css';
-import axios from 'axios';
-import ReactModal from 'react-modal';
 
 ReactModal.setAppElement('#root');
  
 function App() {
-  const baseUrl = "https://api.unsplash.com/";
-  const path = "search/photos/";
+  const BASE_URL = "https://api.unsplash.com/";
+  const PATH = "search/photos/";
   const API_KEY="n1hufdNKQBCwywfsDtA0t_J8ZgbNc7sUjNej2cu61-Q";
+
+  //State variables
   const [images, setImages] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0); 
@@ -35,14 +38,15 @@ function App() {
   }
 
 
- 
+    // Fetch images from Unsplash API
     async function fetchImages(query,page=1) {
-      if (!search) return; // Boş aramalar için çağrıyı atla.
+      if (!query.trim()) return; // Boş aramalar için çağrıyı atla.
       
       try {
         setError(null);
         setLoading(true);
-        const response = await axios.get(`${baseUrl}${path}`, {
+
+        const response = await axios.get(`${BASE_URL}${PATH}`, {
           params: { query, page, per_page: 12, client_id: `${API_KEY}`},
           // Unsplash API'den aldığınız Access Key'i buraya koyun.
         });
@@ -52,8 +56,7 @@ function App() {
         const updatedImages = page === 1 ? newImages : [...images, ...newImages];
         setImages(updatedImages);
         localStorage.setItem("currentImages",JSON.stringify(updatedImages));
-
-        console.log(`current page: ${page} ${response.data.results}`)
+        localStorage.setItem("searchText", JSON.stringify(query));
       } catch (error) {
         console.error("Error fetching images:", error);
         setError("Failed to load images. Please try again later.");
@@ -65,16 +68,15 @@ function App() {
 
   const handleSearch = (event) => {
     setSearch(event.target.value); 
-    localStorage.setItem("searchText",JSON.stringify(event.target.value));
   };
 
   const handleLoadMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
     fetchImages(search, nextPage);
-    setLoading(false);
-  };
-  const handleSearchSubmit = () => {
+   };
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
     if (!search.trim()) {
       console.warn("Search query is empty");
       return;
@@ -82,21 +84,21 @@ function App() {
     console.log("Search submitted:", search);
     setPage(1);
     fetchImages(search, 1); 
+    
   };
 
   useEffect(()=>{
-    const localSearch = JSON.parse(localStorage.getItem("searchText"));;
 
-    if(!localSearch){
+    try{
+      const localSearch = JSON.parse(localStorage.getItem("searchText")) || "";
+      const localImages = JSON.parse(localStorage.getItem("currentImages")) || [];
+  
+      setSearch(localSearch);
+      setImages(localImages);
+    }catch (error) {
+      console.error("Error reading from localStorage:", error);
+      setSearch("");
       setImages([]);
-    }else{
-      const localData = localStorage.getItem("currentImages");
-
-      if(localData){
-        setImages(JSON.parse(localData));
-        setSearch(localSearch);
-      }
-
     }
 
   },[]);
@@ -107,7 +109,7 @@ function App() {
       <SearchBar
         value={search}
         onChange={handleSearch}
-        onSubmit={handleSearchSubmit}
+        onSubmit={(event)=>{handleSearchSubmit(event)}}
       />
     </div>
 
@@ -116,9 +118,8 @@ function App() {
     }
 
      {
-       images.length>0 &&  !error &&  isLoading===false && (<LoadMoreBtn onLoad={handleLoadMore}></LoadMoreBtn> ) 
+       images.length>0 &&  !error &&  !isLoading && ( <LoadMoreBtn onLoad={handleLoadMore} /> ) 
      }
-
 
      {modalOpen && selectedImg && (
        <ImageModal

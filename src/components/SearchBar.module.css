@@ -8,11 +8,22 @@
     border: none;
 }
 
+.formSearch{
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .inputBox:focus{
     border:none;
     outline: none;
 }
 
+.findButton{
+    padding: 0;
+    margin: auto;
+    background-color: #fff;
+}
 .findButton:focus{
     border:none;
     outline: none;
@@ -20,4 +31,6 @@
 
 .findButton:hover{
     border:none;
+    outline: none;
+    border-color: #fff;
 }

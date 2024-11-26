@@ -11,11 +11,11 @@ const ImagePart = ({image}) => {
 }
 
 ImagePart.propTypes = {
-    image: PropTypes.shape({
-      id: PropTypes.string.isRequired, // Eğer API'den `id` geliyor.
-      urls: PropTypes.string.isRequired,
-      title: PropTypes.string, // `title` opsiyonel olabilir.
+  image: PropTypes.shape({
+    urls: PropTypes.shape({
+      small: PropTypes.string.isRequired, // Use the specific URL property you need
     }).isRequired,
+  }).isRequired,
   };
 
 export default ImagePart

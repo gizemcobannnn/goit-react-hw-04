@@ -3,7 +3,7 @@ import ImagePart from './ImagePart.jsx';
 import PropTypes from 'prop-types';
 
 
-const ImageGallery = ({images, onImageClick}) => {
+const ImageGallery = ({images=[], onImageClick=()=>{}}) => {
   return (
     <div className={Styles.imageResult}>
         {images.length>0 ? (
@@ -16,19 +16,19 @@ const ImageGallery = ({images, onImageClick}) => {
             </ul>
         ) : 
         (
-        <div className={Styles.noResult}>No results found</div> // Daha anlamlı bir çıktı.
+        <div className={Styles.noResult}>No images found for your search.</div> 
         )
         }
     </div>
   )
 }
 
+
+
 ImageGallery.propTypes = {
     images: PropTypes.arrayOf(
       PropTypes.shape({
-        objectID: PropTypes.string.isRequired, // objectID'nin string olduğunu varsaydım.
-        url: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
       })
     ).isRequired,
     onImageClick: PropTypes.func.isRequired,
