@@ -3,6 +3,7 @@ import ImageGallery from './components/ImageGallery.jsx';
 import LoadMoreBtn  from './components/LoadMoreBtn.jsx';
 import ImageModal from './components/ImageModal.jsx';
 import ErrorMessage from './components/ErrorMessage.jsx'
+import Loader from './components/Loader.jsx';
 import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
@@ -20,6 +21,7 @@ function App() {
   const [modalOpen , setModalOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
   const [error, setError] = useState(null); 
+  const [isLoading, setLoading] = useState(false);
 
   const handleImageClick=(imgUrl)=>{
     console.log("Selected Image:", imgUrl); // Gelen görsel verisini kontrol edin
@@ -39,6 +41,7 @@ function App() {
       
       try {
         setError(null);
+        setLoading(true);
         const response = await axios.get(`${baseUrl}${path}`, {
           params: { query, page, per_page: 12, client_id: `${API_KEY}`},
           // Unsplash API'den aldığınız Access Key'i buraya koyun.
@@ -54,6 +57,8 @@ function App() {
       } catch (error) {
         console.error("Error fetching images:", error);
         setError("Failed to load images. Please try again later.");
+      }finally{
+        setLoading(false);
       }
     }
 
@@ -83,6 +88,7 @@ function App() {
       setImages(JSON.parse(localData));
     }
   },[]);
+
   return (
     <>
     <div className='search-section'>
@@ -92,20 +98,23 @@ function App() {
         onSubmit={handleSearchSubmit}
       />
     </div>
-     {error ? (<ErrorMessage message={error} /> ) : 
-     ( <ImageGallery images={images} onImageClick={handleImageClick}  />) }
-     
-      {
-        images.length>0 &&  !error &&(<LoadMoreBtn onLoad={handleLoadMore}></LoadMoreBtn> ) 
-      }
-      {modalOpen && selectedImg && (
-        <ImageModal
-          isOpen={modalOpen}
-          onClose={handleCloseModal}
-          imgUrl={selectedImg}
-          altText="Selected image"
-        />
-      )}
+
+    {
+      isLoading ? (<Loader/>) : error ? (<ErrorMessage message={error}/>) : (<ImageGallery images={images} onImageClick={handleImageClick}/>)
+    }
+
+     {
+       images.length>0 &&  !error && (<LoadMoreBtn onLoad={handleLoadMore}></LoadMoreBtn> ) 
+     }
+
+     {modalOpen && selectedImg && (
+       <ImageModal
+         isOpen={modalOpen}
+         onClose={handleCloseModal}
+         imgUrl={selectedImg}
+         altText="Selected image"
+       />
+     )}
 
     </>
   );
